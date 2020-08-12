@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"8.0.0-rc.5","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":true},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false};
+  </script>
+
+  <meta name="description" content="题目给定一个非负整数数组，a1, a2, …, an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。返回可以使最终数组和为目标数 S 的所有添加符号的方法数。来自leetcode494，题目链接点击这里 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划典型题之“目标和”">
+<meta property="og:url" content="http://yoursite.com/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/index.html">
+<meta property="og:site_name" content="小安的House">
+<meta property="og:description" content="题目给定一个非负整数数组，a1, a2, …, an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。返回可以使最终数组和为目标数 S 的所有添加符号的方法数。来自leetcode494，题目链接点击这里 。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812205257.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812205540.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812212039.png">
+<meta property="article:published_time" content="2020-08-12T12:34:04.000Z">
+<meta property="article:modified_time" content="2020-08-12T13:37:08.459Z">
+<meta property="article:author" content="Chris">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="动态规划">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812205257.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>动态规划典型题之“目标和” | 小安的House</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">小安的House</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">欢迎光临！！</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">1.1.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF1%E3%80%81dfs%EF%BC%88%E9%80%92%E5%BD%92%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">思路1、dfs（递归）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF2%E3%80%81%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2"><span class="nav-number">1.3.</span> <span class="nav-text">思路2、记忆化搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF3%E3%80%81%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">1.4.</span> <span class="nav-text">思路3、动态规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF4%E3%80%81%E7%BB%A7%E7%BB%AD%E4%BC%98%E5%8C%96%E6%88%901%E7%BB%B4dp%E6%95%B0%E7%BB%84"><span class="nav-number">1.5.</span> <span class="nav-text">思路4、继续优化成1维dp数组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chris"
+      src="/images/me.jpg">
+  <p class="site-author-name" itemprop="name">Chris</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/1171257311" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;1171257311" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1171257311@qq.com" title="E-Mail → 1171257311@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+      
+
+      
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/me.jpg">
+      <meta itemprop="name" content="Chris">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小安的House">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划典型题之“目标和”
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-12 20:34:04 / 修改时间：21:37:08" itemprop="dateCreated datePublished" datetime="2020-08-12T20:34:04+08:00">2020-08-12</time>
+            </span>
+
+          
+            <span id="/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/" class="post-meta-item leancloud_visitors" data-flag-title="动态规划典型题之“目标和”" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">评论数：</span>
+    
+    <a title="valine" href="/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个非负整数数组，a1, a2, …, an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。返回可以使最终数组和为目标数 S 的所有添加符号的方法数。<strong>来自leetcode494</strong>，<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/">题目链接点击这里</a> 。<br>　　<a id="more"></a></p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812205257.png" alt="20200812205257"></p>
+<hr>
+<h3 id="思路1、dfs（递归）"><a href="#思路1、dfs（递归）" class="headerlink" title="思路1、dfs（递归）"></a>思路1、dfs（递归）</h3><p>首先给的数组里面的数一定要使用，因此自然而然想到了：<strong>dfs</strong>，也就是枚举每一种可能性，一直枚举到最后一层。这种想法的示意图如下：</p>
+<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812205540.png" alt="20200812205540"></p>
+<p>其实类似于一个二叉树，我们要求的其实就是这个二叉树里面的从根节点root到叶子节点的所有路径里面，路径和符合要求的有几条。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findTargetSumWays</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> S)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums==<span class="keyword">null</span>||nums.length&lt;<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;  </span><br><span class="line">       <span class="keyword">return</span> process(nums,<span class="number">0</span>,S,S);       </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span>  <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> index,<span class="keyword">int</span> target,<span class="keyword">int</span> sum)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==nums.length)&#123;<span class="comment">//到了最后一层</span></span><br><span class="line">            <span class="keyword">return</span> sum==target?<span class="number">1</span>:<span class="number">0</span>;   </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> process(nums,index+<span class="number">1</span>,target,sum+nums[index])+process(nums,index+<span class="number">1</span>,target,sum-nums[index]);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以计算一下<strong>时间复杂度</strong>，因为数组里面每个元素都有两种情况，因此总的时间复杂度为<strong>O（2^N）</strong>，N为数组元素个数。<br>但是这种方法比较慢，OJ里面需要600ms，太慢了。</p>
+<hr>
+<h3 id="思路2、记忆化搜索"><a href="#思路2、记忆化搜索" class="headerlink" title="思路2、记忆化搜索"></a>思路2、记忆化搜索</h3><p>对<strong>暴力递归</strong>进行第一步优化，首先思考一下为什么暴力递归的速度这么慢？很简单，因为重复计算了很多子问题，只要process方法里面的index确定，sum确定，那么返回的方法数就是一定的；而原来的递归里面，即使浅层递归的index和sum确定了，依然往深层继续递归计算，但是这是不必要的计算，因此我们可以把这个结果保存下来。</p>
+<p>也就是说只要遇到相同的index和sum，那么直接就可以返回之前保存的方法数。实现的方法就是保存在一个hashmap里面，key为index+sum字符串，value就是对应的方法数。这种优化方式一般叫做：<strong>“记忆化搜索”</strong>，优化代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;String, Integer&gt; memo = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findTargetSumWays2</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> S)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(nums==<span class="keyword">null</span>||nums.length&lt;<span class="number">1</span>)</span><br><span class="line">           <span class="keyword">return</span> -<span class="number">1</span>;  </span><br><span class="line">      <span class="keyword">return</span> process2(nums,<span class="number">0</span>,S,<span class="number">0</span>);       </span><br><span class="line">   &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span>  <span class="title">process2</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> index,<span class="keyword">int</span> target,<span class="keyword">int</span> sum)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(index==nums.length)&#123;<span class="comment">//到了最后一层</span></span><br><span class="line">           <span class="keyword">return</span> sum==target?<span class="number">1</span>:<span class="number">0</span>;   </span><br><span class="line">       &#125;</span><br><span class="line">       String key=index+<span class="string">&quot;,&quot;</span>+sum;</span><br><span class="line">       <span class="keyword">if</span>(memo.containsKey(key))</span><br><span class="line">           <span class="keyword">return</span> memo.get(key);<span class="comment">//查询之前有没有保存过，如果有直接返回之前保存的方法数</span></span><br><span class="line">       <span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="keyword">int</span> res=process2(nums,index+<span class="number">1</span>,target,sum+nums[index])+process2(nums,index+<span class="number">1</span>,target,sum-nums[index]);</span><br><span class="line">           memo.put(key,res);</span><br><span class="line">           <span class="keyword">return</span> res;</span><br><span class="line">       &#125;</span><br><span class="line">         </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>使用<strong>记忆化搜索</strong>可以显著提升速度，但是还可以进一步优化，那就是<strong>动态规划</strong>。</p>
+<hr>
+<h3 id="思路3、动态规划"><a href="#思路3、动态规划" class="headerlink" title="思路3、动态规划"></a>思路3、动态规划</h3><p>首先，我们可以根据上面的暴力递归把状态传递方程给写出来：<br>dp[i][j]=dp[i+1][j-nums[i]]+dp[i+1][j+nums[i]]<br>这里的i就是index，这里的j就是sum，其实就是根据上面的process函数写的。<br>然后，我们可以先举个例子，来尝试画个表，看看动态规划的结果对不对，这里我们设置输入的数组为：[1,1,1,1],也就是index=4，累加和为-4~4（如-1-1-1-1=-4）。因此我们可以画出下面的二维表：   </p>
+<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200812212039.png" alt="20200812212039"></p>
+<p>注意，这里index一共为5行，0~3表示数组有4个数，最后一行是因为之前的递归process方法里面，index必须要到nums.length才能结束：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index&#x3D;&#x3D;nums.length;</span><br></pre></td></tr></table></figure>
+<p>所以表格一共的层数为：数组元素个数+1个。</p>
+<p>可以发现，最后，（0,0）位置就是我们要求的，他的值为4，是对的。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//二维dp</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findTargetSumWays</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> S)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(nums==<span class="keyword">null</span>||nums.length&lt;<span class="number">1</span>)</span><br><span class="line">           <span class="keyword">return</span> -<span class="number">1</span>;  </span><br><span class="line">       <span class="keyword">int</span> row=nums.length+<span class="number">1</span>;</span><br><span class="line">       <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> num:nums)</span><br><span class="line">           sum+=num;</span><br><span class="line">       <span class="keyword">if</span>(sum&lt;S)</span><br><span class="line">           <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">int</span> col=<span class="number">2</span>*sum+<span class="number">1</span>;</span><br><span class="line">       <span class="keyword">int</span>[][] dp=<span class="keyword">new</span> <span class="keyword">int</span>[row][col];</span><br><span class="line">       dp[row-<span class="number">1</span>][sum+S]=<span class="number">1</span>;<span class="comment">//初始化</span></span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=row-<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=col-<span class="number">1</span>;j++)&#123;</span><br><span class="line">             <span class="comment">//注意边界问题,超过了边界就取第一列</span></span><br><span class="line">              <span class="keyword">int</span> l=j-nums[i]&gt;=<span class="number">0</span>?j-nums[i]:<span class="number">0</span>;</span><br><span class="line">              <span class="keyword">int</span> r=j+nums[i]&lt;col?j+nums[i]:<span class="number">0</span>;</span><br><span class="line">              dp[i][j]=dp[i+<span class="number">1</span>][l]+dp[i+<span class="number">1</span>][r];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> dp[<span class="number">0</span>][sum];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>时间复杂度为:O(M*N)，M表示多少个数，N表示2倍的数组累加和。相比之前的暴力递归下降了很多。至于这里的边界问题，我的意思就是如果数组下标超了，那么数组元素就是用0来代替，刚好第0列都是0，那就直接换成第0列吧。</p>
+<hr>
+<h3 id="思路4、继续优化成1维dp数组"><a href="#思路4、继续优化成1维dp数组" class="headerlink" title="思路4、继续优化成1维dp数组"></a>思路4、继续优化成1维dp数组</h3><p>　　　通过上面的表格可以发现，每一行的新元素只和下面一行的旧元素有关，因此我们可以只用一维数组解决。但是因为旧元素的列一个在左，一个在右，因此需要两个一维dp数组才行（因为不管从哪个方向更新，左右两个旧元素都会被有一个被“刷新”）。因此，用一个dp数组保存旧的元素，另外一个dp数组保存新的元素。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//一维dp</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findTargetSumWays</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> S)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums==<span class="keyword">null</span>||nums.length&lt;<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;  </span><br><span class="line">        <span class="keyword">int</span> row=nums.length+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> num:nums)</span><br><span class="line">            sum+=num;</span><br><span class="line">        <span class="keyword">if</span>(sum&lt;S)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> col=<span class="number">2</span>*sum+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] dp=<span class="keyword">new</span> <span class="keyword">int</span>[col];</span><br><span class="line">        dp[sum+S]=<span class="number">1</span>;<span class="comment">//初始化</span></span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> i=row-<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">              <span class="keyword">int</span>[] next=<span class="keyword">new</span> <span class="keyword">int</span>[col];<span class="comment">//新数组</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=col-<span class="number">1</span>;j++)&#123;</span><br><span class="line">              <span class="comment">//注意边界问题</span></span><br><span class="line">               <span class="keyword">int</span> l=j-nums[i]&gt;=<span class="number">0</span>?j-nums[i]:<span class="number">0</span>;</span><br><span class="line">               <span class="keyword">int</span> r=j+nums[i]&lt;col?j+nums[i]:<span class="number">0</span>;</span><br><span class="line">               next[j]=dp[l]+dp[r];</span><br><span class="line">            &#125;</span><br><span class="line">            dp=next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[sum];</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>时间复杂度和二维dp一样，但是空间复杂度又下降了。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　　这个题是一个很典型的动态规划方向的题目，优化的套路就是，先<strong>暴力递归</strong>，然后发现有重复子问题，然后使用<strong>记忆化搜索</strong>进行优化，然后再利用<strong>动态规划</strong>降低时间复杂度，最后再使用<strong>一维动态规划</strong>降低空间复杂度。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button onclick="document.getElementById('post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div id="post-reward">
+      <div>
+        <img src="/images/wechat.jpg" alt="Chris 微信">
+        <p>微信</p>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="Chris 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Chris： </strong>Chris
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://yoursite.com/2020/08/12/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E9%A2%98%E4%B9%8B%E2%80%9C%E2%80%9C%E7%9B%AE%E6%A0%87%E5%92%8C%E2%80%9D/" title="动态规划典型题之“目标和”">http://yoursite.com/2020/08/12/动态规划典型题之““目标和”/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag"># 动态规划</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/10/%E6%96%87%E7%AB%A0%E6%A0%87%E9%A2%98/" rel="prev" title="这是小安的博客">
+                  <i class="fa fa-chevron-left"></i> 这是小安的博客
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+      
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chris</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">4k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+      
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      const visitors = document.querySelector('.leancloud_visitors');
+      const url = decodeURI(visitors.id);
+      const title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            const counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      const visitors = document.querySelectorAll('.leancloud_visitors');
+      const entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            const target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    const { app_id, app_key, server_url } = {"enable":true,"app_id":"4iQEgW5neyTRRdyDeP37umHy-gzGzoHsz","app_key":"yjW0h69xxRd0qUPXyfNKa254","server_url":null,"security":true};
+    function fetchData(api_server) {
+      const Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    const api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"u11JSx4SQWTS35jxODUzQHRU-gzGzoHsz","appKey":"ryKVawgevjswDwlvRQtu5FvJ","placeholder":"ヾﾉ≧∀≦)o 来呀！吐槽一番吧！","avatar":"mm","meta":[],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"serverURLs":null,"enableQQ":false,"requiredFields":[]}
+    ));
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
