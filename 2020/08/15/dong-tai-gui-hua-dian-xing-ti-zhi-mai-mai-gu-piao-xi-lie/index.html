@@ -474,7 +474,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="买卖股票系列题目1（简单）、"><a href="#买卖股票系列题目1（简单）、" class="headerlink" title="买卖股票系列题目1（简单）、"></a>买卖股票系列题目1（简单）、</h2><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。<br>如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。来自leetcode121，<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/submissions/" target="_blank" rel="noopener">链接</a>   </p>
-<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815204307.png" alt="20200815204307"></p>
+<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815204307.png"></p>
 <hr>
 <p><strong>思路1</strong>：暴力法需要两轮遍历，外层遍历买入，内层遍历卖出，因此时间复杂度O(N^2)。思路2，只需要一层遍历，同时更新最小值以及利润最大值。因此需要两个变量保存最小买入价格和最大利润。时间复杂度降为O(N);</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxProfit1</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> prices<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -516,8 +516,8 @@ dp<span class="token punctuation">[</span>i<span class="token punctuation">]</sp
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
 <h2 id="买卖股票系列题目2（简单）、"><a href="#买卖股票系列题目2（简单）、" class="headerlink" title="买卖股票系列题目2（简单）、"></a>买卖股票系列题目2（简单）、</h2><p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。<br>注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。leetcode122，<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/" target="_blank" rel="noopener">链接</a></p>
-<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815205318.png" alt="20200815205318"></p>
-<p><strong>思路1</strong>：相比前面一道题，这里的变化就是可以买卖多次股票，求最大利润是多少。这里使用一种“峰谷”的思想（也不容易想，但是想到了就挺简单）。<br><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815205413.png" alt="20200815205413"></p>
+<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815205318.png"></p>
+<p><strong>思路1</strong>：相比前面一道题，这里的变化就是可以买卖多次股票，求最大利润是多少。这里使用一种“峰谷”的思想（也不容易想，但是想到了就挺简单）。<br><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815205413.png"></p>
 <p>　　<img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815205558.png" alt="20200815205558"></p>
 <p>　　这里peak就是峰，valley就是谷，如上图。也就是说最大利润等于所有相邻的“峰”-相邻的“谷”的累加。如果我们试图跳过其中一个峰值来获取更多利润，那么我们最终将失去其中一笔交易中获得的利润，从而导致总利润的降低。<br>　　例如，在上述情况下，如果我们跳过 peaki 和 valleyj 试图通过考虑差异较大的点以获取更多的利润，获得的净利润总是会小与包含它们而获得的净利润，因为 C 总是小于 A+B。因此我们的任务就是找到所有相邻的“峰谷”。</p>
 <pre class="line-numbers language-java"><code class="language-java"> <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxProfit1</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> prices<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -609,7 +609,7 @@ dp<span class="token punctuation">[</span>i<span class="token punctuation">]</sp
 <p>时间复杂度O(N*M)，N表示天数，M表示限制的交易次数，这里为2。</p>
 <hr>
 <h2 id="买卖股票系列题目4、（困难）"><a href="#买卖股票系列题目4、（困难）" class="headerlink" title="买卖股票系列题目4、（困难）"></a>买卖股票系列题目4、（困难）</h2><p>给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。<br>设计一个算法来计算你所能获取的最大利润。你最多可以完成 k 笔交易。leetcode188，<a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/" target="_blank" rel="noopener">链接</a></p>
-<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815210805.png" alt="20200815210805"></p>
+<p><img src="https://raw.githubusercontent.com/1171257311/picgo/master/images/20200815210805.png"></p>
 <p><strong>思路</strong>：这道题目的要求更进一步了，题目的变化是，买卖的次数是作为参数指定的k，而不是之前确定的。但是使用<strong>动态规划</strong>依然可以非常<strong>套路</strong>的解出来。<br>依然像上面一样初始化第一天的所有情况，然后双重循环更新所有dp元素。但是需要注意的是，如果k&gt;price.length/2，其实就是随便交易几次的情况（因为price.length/2是最多的交易次数），因此可以重用前面<strong>不限制交易次数</strong>（也就是前面的<em>系列题目2</em>）的代码。</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxProfit</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> prices<span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
