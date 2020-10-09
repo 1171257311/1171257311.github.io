@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="“回溯”相关题型, JAVA,算法,数据库等">
+    <meta name="keywords" content="二叉树的最大路径和, JAVA,算法,数据库等">
     <meta name="description" content="分享生活,分享知识">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>“回溯”相关题型 | 小安的House</title>
+    <title>二叉树的最大路径和 | 小安的House</title>
     <link rel="icon" type="image/png" href="/logo.png">
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
@@ -315,12 +315,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">“回溯”相关题型</h1>
+                    <h1 class="description center-align post-title">二叉树的最大路径和</h1>
                 </div>
             </div>
         </div>
@@ -441,8 +441,8 @@
                                 <span class="chip bg-color">算法</span>
                             </a>
                         
-                            <a href="/tags/%E5%9B%9E%E6%BA%AF/">
-                                <span class="chip bg-color">回溯</span>
+                            <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
+                                <span class="chip bg-color">二叉树</span>
                             </a>
                         
                     </div>
@@ -466,7 +466,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-30
+                    2020-10-09
                 </div>
                 
 
@@ -482,128 +482,33 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1、符串全排列问题"><a href="#1、符串全排列问题" class="headerlink" title="1、符串全排列问题"></a>1、符串全排列问题</h2><p>打印一个字符串的全排列(比如abc的排列包括：abc,cab,cba，，，，)，<a href="https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/" target="_blank" rel="noopener">剑指offer38</a></p>
-<p>又或者，给一串数字，求这串数字的全排列，比如：<a href="https://leetcode-cn.com/problems/permutations/" target="_blank" rel="noopener">leetcode46</a><br><img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830103147.png  "  /> </p>
-<p>思路1、首先可以分成两种情况：一种是里面没有重复的字符，一种是有重复的字符（只需要加一个hashset，每次查看需要交换的在set里面是不是已经存在）。整体的结构是：交换其中某两位，然后继续递归后面的，然后在交换回来（恢复交换的 元素），准备迎接下一轮。</p>
-<p>过程就如下图所示：<br><img src="  https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830103619.png "  /> </p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> ArrayList<span class="token operator">&lt;</span>String<span class="token operator">></span> res<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">permutation</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>s<span class="token operator">==</span>null<span class="token operator">||</span>s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">)</span>
-            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
-        res<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chas<span class="token operator">=</span>s<span class="token punctuation">.</span><span class="token function">toCharArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">process</span><span class="token punctuation">(</span>chas<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">toArray</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span>res<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chas<span class="token punctuation">,</span><span class="token keyword">int</span> index<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>index<span class="token operator">==</span>chas<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
-           res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>chas<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        HashSet<span class="token operator">&lt;</span>Character<span class="token operator">></span> set<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//防止重复</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span>index<span class="token punctuation">;</span>i<span class="token operator">&lt;</span>chas<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>chas<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>chas<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token function">swap</span><span class="token punctuation">(</span>chas<span class="token punctuation">,</span>index<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token function">process</span><span class="token punctuation">(</span>chas<span class="token punctuation">,</span>index<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                 <span class="token function">swap</span><span class="token punctuation">(</span>chas<span class="token punctuation">,</span>index<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>    
-        <span class="token punctuation">}</span> 
-    <span class="token punctuation">}</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">swap</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chas<span class="token punctuation">,</span><span class="token keyword">int</span> i<span class="token punctuation">,</span><span class="token keyword">int</span> j<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">char</span> tmp<span class="token operator">=</span>chas<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        chas<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>chas<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        chas<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>tmp<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>思路2、用举的第二个例子来说明。这里不使用上面的交换来实现，而是将每种可能性组成一个链表（LinkedList），每次更新链表的时候查询链表里面存不存在这个元素，如果存在了直接跳过，示意图如下：<br><img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830104346.png  "  /></p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> <span class="token function">permute</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token operator">==</span>null<span class="token operator">||</span>nums<span class="token punctuation">.</span>length<span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">)</span>
-            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
-        List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> res<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//存放结果   </span>
-        <span class="token function">backtrack</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span>res<span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">return</span> res<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">backtrack</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span>List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> res<span class="token punctuation">,</span>LinkedList<span class="token operator">&lt;</span>Integer<span class="token operator">></span> tmp <span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">==</span>nums<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
-                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
-                tmp<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token function">backtrack</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span>res<span class="token punctuation">,</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-               tmp<span class="token punctuation">.</span><span class="token function">removeLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<hr>
-<h2 id="2、子集问题"><a href="#2、子集问题" class="headerlink" title="2、子集问题"></a>2、子集问题</h2><p>给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。</p>
-<p>说明：解集不能包含重复的子集。<br><a href="https://leetcode-cn.com/problems/subsets/" target="_blank" rel="noopener">leetcode78</a><br><img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830104535.png  "  /></p>
-<p>思路1：首先也是类似dfs递归的方法，每个位置都可以选择要，或者不要，但是需要注意的一个点是因为我们<strong>重复利用了同一个List，因此我们每次add之后别忘记remove</strong>。</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> <span class="token function">subsets1</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token operator">==</span>null<span class="token operator">||</span>nums<span class="token punctuation">.</span>length<span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        res<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">process</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr<span class="token punctuation">,</span> <span class="token keyword">int</span> index<span class="token punctuation">,</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> tmp<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>index<span class="token operator">==</span>arr<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
-           <span class="token punctuation">{</span>
-                res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token keyword">return</span> <span class="token punctuation">;</span>
-           <span class="token punctuation">}</span> 
-        <span class="token comment" spellcheck="true">//这里选择了重复利用tmp，没有复制一个新的放入递归里面</span>
-        <span class="token function">process</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span>index<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        tmp<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>arr<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">process</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span>index<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        tmp<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>tmp<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//因此最后需要删除当前元素 </span>
-    <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>思路2：使用回溯算法，模板如下：<br><img src="  https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830104845.png "  /></p>
-<p><em>注</em>：<em>这题的数组的长度没有限制，因此每次递归的一开始可以直接把当前结果放入res。不需要等到数的叶子节点。如果像上面一题长度有限制，也就是必须到达叶子节点，那么就不能这样。</em></p>
-<pre class="line-numbers language-java"><code class="language-java"> <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> res<span class="token punctuation">;</span>
-    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> <span class="token function">subsets</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token operator">==</span>null<span class="token operator">||</span>nums<span class="token punctuation">.</span>length<span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-         res<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">backtrack</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>nums<span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-         <span class="token keyword">return</span> res<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-     <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">backtrack</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">,</span>  ArrayList<span class="token operator">&lt;</span>Integer<span class="token operator">></span> tmp<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//直接返回</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span> j <span class="token operator">&lt;</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            tmp<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//需要这一位的数据</span>
-            <span class="token function">backtrack</span><span class="token punctuation">(</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span>nums<span class="token punctuation">,</span> tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            tmp<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>tmp<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//不需要这一位，直接恢复，等待下一个候选人</span>
-        <span class="token punctuation">}</span>
-     <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>使用回溯算法的示意图：<br><img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830105040.png  "  /></p>
-<h3 id="类似的问题：打印字符串的全部子序列"><a href="#类似的问题：打印字符串的全部子序列" class="headerlink" title="类似的问题：打印字符串的全部子序列"></a>类似的问题：打印字符串的全部子序列</h3><p>打印一个字符串的全部子序列，包括空字符串（abc的子序列包括a,ab,abc,bc，，，，）</p>
-<p>思路1：使用树的思想，每一位都可以选择要或者不要，因为使用的是String，每次添加字符都会自动新生成一个String对象，不是共用一个对象，所以不需要每次使用完之后删除。<br><img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830105152.png  "  /></p>
-<p>思路2：使用上面的回溯模型，因为没有规定相同的长度，所以不必等到叶子节点才返回。每一轮直接就可以返回。<br><img src="  https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830105237.png "  /></p>
-<hr>
-<h2 id="3、组合问题"><a href="#3、组合问题" class="headerlink" title="3、组合问题"></a>3、组合问题</h2><p>输入两个数字 n, k，算法输出 [1..n] 中 k 个数字的所有组合。比如输入 n = 4, k = 2，输出如下结果，顺序无所谓，但是不能包含重复（按照组合的定义，[1,2] 和 [2,1] 也算重复）：<a href="https://leetcode-cn.com/problems/combinations/" target="_blank" rel="noopener">leetcode77</a><br><img src="  https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830105352.png "  /></p>
-<p>使用回溯算法的时候，示意图如下：<br><img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20200830110132.png  "  /></p>
-<pre class="line-numbers language-java"><code class="language-java"> <span class="token keyword">public</span> List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> <span class="token function">combine</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">,</span> <span class="token keyword">int</span> k<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&lt;</span><span class="token number">1</span><span class="token operator">||</span>k<span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">)</span>
-            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> res<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">backtrack</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span>k<span class="token punctuation">,</span>res<span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>Integer<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">backtrack</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">,</span><span class="token keyword">int</span> index<span class="token punctuation">,</span><span class="token keyword">int</span> k<span class="token punctuation">,</span>List<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">>></span> res<span class="token punctuation">,</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> tmp<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">==</span>k<span class="token punctuation">)</span>
-            res<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span>index<span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            tmp<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token function">backtrack</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>k<span class="token punctuation">,</span>res<span class="token punctuation">,</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            tmp<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>tmp<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
+                <h2 id="二叉树的最大路径和（困难）"><a href="#二叉树的最大路径和（困难）" class="headerlink" title="二叉树的最大路径和（困难）"></a>二叉树的最大路径和（困难）</h2><p>本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。里面的节点的值可能为负。<a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener">链接-leetcode124</a></p>
+<p>如下图：  </p>
+<img src=" https://raw.githubusercontent.com/1171257311/picgo/master/images/20201009155200.png" width="50%" height="50%" alt="例子" >
 
-    <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这三类题目非常相似，但是又略有不同，只要记住了回溯的那个框架，其实都能写出来，需要注意的是两个问题：</p>
-<p><strong>第一个</strong>：这个要求的子序列是不是长度固定的，如果不是，那么在回溯里面直接就可以加入结果集，而不需要等到长度一定（到达叶子节点）时才能返回结果。</p>
-<p><strong>第二个</strong>：如果其中暂存每种结果的集合是公用的，每次add之后必须remove。</p>
-<p>最重要的还是脑海里面有一张上面的二叉树的那张图，有了这个画面就好写了。</p>
+<p>思路：有一些类似的题目，比如从一个二叉树里面的任意一个节点出发，只能往下，然后求最大的路径和或者是最大的异或和，这道题不同的地方在于，它既可以网上，也可以往下。另外，也有类似的题目是求一个二叉树里面的最长路径，而不是最大路径和。</p>
+<p>这里我们假设一下，如果我们知道了每个节点往下的最大路径和（<em>注意，往下不一定非要到达叶子节点，可以在往下的任意位置停下</em>），那么整个二叉树的最大路径和其实就是：**在后序遍历二叉树的过程中，每个节点的值+左子树往下的最大路径+右子树往下的最大路径 **，我们只需要在遍历的过程中维护一个最大值max即可。</p>
+<p>而这个递归函数需要返回每个头结点往下的最大路径和即可。</p>
+<pre class="line-numbers language-java"><code class="language-java">  <span class="token keyword">public</span> <span class="token keyword">int</span> max<span class="token operator">=</span>Integer<span class="token punctuation">.</span>MIN_VALUE<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">maxPathSum</span><span class="token punctuation">(</span>TreeNode root<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>root<span class="token operator">==</span>null<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">process</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> max<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//到从node往下的最大路径和，不一定要到达叶子节点</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">process</span><span class="token punctuation">(</span>TreeNode node<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>node<span class="token operator">==</span>null<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> left<span class="token operator">=</span>Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token function">process</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> right<span class="token operator">=</span>Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token function">process</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> itselt<span class="token operator">=</span>node<span class="token punctuation">.</span>val<span class="token operator">+</span>left<span class="token operator">+</span>right<span class="token punctuation">;</span>
+        max<span class="token operator">=</span>Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>max<span class="token punctuation">,</span>itselt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> node<span class="token punctuation">.</span>val<span class="token operator">+</span>Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
             </div>
             <hr/>
@@ -629,7 +534,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://www.caffebabe.top/2020/08/30/hui-su-xiang-guan-ti-xing/">https://www.caffebabe.top/2020/08/30/hui-su-xiang-guan-ti-xing/</a>
+                    <a href="https://www.caffebabe.top/2020/10/09/er-cha-shu-de-zui-da-lu-jing-he/">https://www.caffebabe.top/2020/10/09/er-cha-shu-de-zui-da-lu-jing-he/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -671,8 +576,8 @@
                                     <span class="chip bg-color">算法</span>
                                 </a>
                             
-                                <a href="/tags/%E5%9B%9E%E6%BA%AF/">
-                                    <span class="chip bg-color">回溯</span>
+                                <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
+                                    <span class="chip bg-color">二叉树</span>
                                 </a>
                             
                         </div>
@@ -1103,9 +1008,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/10/09/er-cha-shu-de-zui-da-lu-jing-he/">
                     <div class="card-image">
@@ -1128,9 +1034,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1143,6 +1049,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1165,44 +1072,33 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/19/join/">
+                <a href="/2020/08/30/hui-su-xiang-guan-ti-xing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="【MySQL】各种“连接”（内连接，左连接，右连接等等）">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="“回溯”相关题型">
                         
-                        <span class="card-title">【MySQL】各种“连接”（内连接，左连接，右连接等等）</span>
+                        <span class="card-title">“回溯”相关题型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            示意图
-
-
-
-1、内连接（INNER JOIN）
-
-代码如下：
-SELECT  A.PK AS A_PK,A.Value AS A_Value,B.PK AS B_PK,B.Value AS B_Value
-FROM table_a A
-I
+                            1、符串全排列问题打印一个字符串的全排列(比如abc的排列包括：abc,cab,cba，，，，)，剑指offer38
+又或者，给一串数字，求这串数字的全排列，比如：leetcode46 
+思路1、首先可以分成两种情况：一种是里面没有重复的字
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-30
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-category">
-                                    数据库
-                                </a>
-                            
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%90%8E%E7%AB%AF/" class="post-category">
-                                    后端
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1212,12 +1108,12 @@ I
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-                        <span class="chip bg-color">数据库</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/%E5%9B%9E%E6%BA%AF/">
+                        <span class="chip bg-color">回溯</span>
                     </a>
                     
                 </div>
